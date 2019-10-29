@@ -10,24 +10,24 @@
 
 
 2. 개발기간 & 개발배경 & 인사이트
-  - 개발기간 : _19.10.09 ~ 19.10.23 (15일)_
-  - 개발배경 : 평소에 내가 쓰는 체크카드의 혜택을 몰라 현명한 소비를 할 수 없었고, 나만의 생활패턴을 반영한 카드를 찾고자 했습니다.
-  - 인사이트 : 체크카드 상품을 선택할 때 남녀노소 구별없이 어떤 혜택이 가장 공통적으로 많은지, 남녀의 성비에 따른 선호 혜택은 무엇인지, 연령대에 따른 선호 혜택은 무엇인지 cardFit을 이용하는 사람들로 하여금 적재되는 데이터로 분석해보고 싶었습니다. 
+    - 개발기간 : _19.10.09 ~ 19.10.23 (15일)_
+    - 개발배경 : 평소에 내가 쓰는 체크카드의 혜택을 몰라 현명한 소비를 할 수 없었고, 나만의 생활패턴을 반영한 카드를 찾고자 했습니다.
+    - 인사이트 : 체크카드 상품을 선택할 때 남녀노소 구별없이 어떤 혜택이 가장 공통적으로 많은지, 남녀의 성비에 따른 선호 혜택은 무엇인지, 연령대에 따른 선호 혜택은 무엇인지 cardFit을 이용하는 사람들로 하여금 적재되는 데이터로 분석해보고 싶었습니다. 
 
 3. 팀 구성
-  - Front-end : 박현민
-  - Back-end : 송시찬, 이현준
-  - PM : 송평현
+    - Front-end : 박현민
+    - Back-end : 송시찬, 이현준
+    - PM : 송평현
 
 4. Architecture
-  - Spring MVC Pattern
+    - Spring MVC Pattern
   
 5. Skill Set
-  - Front-end : Javascript, HTML, CSS, Bootstrap
-  - Back-end : Java(Spring Boot)
-  - DB : ELK (ElasticSearch v7.0.0)
-  - Data Source : 신한카드, 우리카드, IBK 기업카드
-  - Library : Lombok, json-simple
-  - Visualization : R Studio
-  - Environment : Eclipse (Maven)
+    - Front-end : Javascript, HTML, CSS, Bootstrap
+    - Back-end : Java(Spring Boot)
+    - DB : ELK (ElasticSearch v7.0.0)
+    - Data Source : 신한카드, 우리카드, IBK 기업카드
+    - Library : Lombok, json-simple
+    - Visualization : R Studio
+    - Environment : Eclipse (Maven)
 6. 페이지 구성
