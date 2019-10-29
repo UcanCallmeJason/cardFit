@@ -30,4 +30,4 @@
     - Library : Lombok, json-simple
     - Visualization : R Studio
     - Environment : Eclipse (Maven)
-**6. 페이지 구성**
+
