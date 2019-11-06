@@ -32,62 +32,42 @@ import com.cardfit.project.config.ELConfiguration;
 @Service
 @Component
 public class CardService {
-
+	
 	//모든카드 연령대 count 내림차순
-	public JSONArray descCard() {
+	   public JSONArray descCard() {
+	      RestHighLevelClient client = elConfig.clientConnection();
+	      SearchRequest searchRequest = new SearchRequest("cardfit");
+	      SearchResponse searchResponse = new SearchResponse();
+	      JSONArray result = new JSONArray();
+	      String filedname[] = {"20m", "20f", "30m", "30f", "40m", "40f"};
+	      
+	      try {
+	         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	         for(String filed : filedname) {
+	        	 searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+	        	 searchSourceBuilder.size(1);
+	        	 searchRequest.source(searchSourceBuilder.sort(new FieldSortBuilder(filed).order(SortOrder.DESC)));
+	        	 System.out.println(searchSourceBuilder);
+	        	 searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+	        	 result.add(searchResponse.getHits().getHits()[0]);
+	        	 searchSourceBuilder = new SearchSourceBuilder();
+	         }
+	         client.close();
+	      } catch (IOException e) {
+	         System.out.println("발생된 예외 : " + e.getMessage());
+	         e.printStackTrace();
+	      }
+	      return result;
+	   
+	   }   
 
-		CardServiceDTO cardServiceDTO = init();
-		calc(cardServiceDTO);
-
-//		RestHighLevelClient client = elConfig.clientConnection();
-//		SearchRequest searchRequest = new SearchRequest("cardfit");
-//		SearchResponse searchResponse = new SearchResponse();
-//		JSONArray result = new JSONArray();
-//		String filedname[] = {"20m", "20f", "30m", "30f", "40m", "40f"};
-
-		
-
-	}   
-
-
-	public CardServiceDTO init() {
-		RestHighLevelClient client = elConfig.clientConnection();
-		SearchRequest searchRequest = new SearchRequest("cardfit");
-		SearchResponse searchResponse = new SearchResponse();
-		JSONArray result = new JSONArray();
-		String filedname[] = {"20m", "20f", "30m", "30f", "40m", "40f"};
-		CardServiceDTO cardServiceDTO = new CardServiceDTO(client, searchRequest, searchResponse, result, filedname);
-		
-		return cardServiceDTO;
-	}
-	
-	public JSONArray calc(CardServiceDTO cardServiceDTO) {
-		try {
-			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-			for(String filed : cardServiceDTO.getFiledname()) {
-				searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-				searchSourceBuilder.size(1);
-				cardServiceDTO.getSearchRequest().source(searchSourceBuilder.sort(new FieldSortBuilder(filed).order(SortOrder.DESC)));
-				System.out.println(searchSourceBuilder);
-				cardServiceDTO.setSearchResponse(cardServiceDTO.getClient().search(cardServiceDTO.getSearchRequest(), RequestOptions.DEFAULT));
-				cardServiceDTO.getResult().add(cardServiceDTO.getSearchResponse().getHits().getHits()[0]);
-				searchSourceBuilder = new SearchSourceBuilder();
-			}
-			cardServiceDTO.getClient().close();
-		} catch (IOException e) {
-			System.out.println("발생된 예외 : " + e.getMessage());
-			e.printStackTrace();
-		}
-		return cardServiceDTO.getResult();
-	}
-	
 	@Autowired
 	private ELConfiguration elConfig;
 
 	// 내 카드검색
 	public void searchCountUp(String user, String id) {
 		RestHighLevelClient client = elConfig.clientConnection();
-
+		
 		try {
 			GetRequest getRequest = new GetRequest("cardfit", id);
 			GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
@@ -126,7 +106,7 @@ public class CardService {
 		}
 		return result;
 	}
-
+	
 	public JSONArray cardNameSearch(String queryTerm) {
 		RestHighLevelClient client = elConfig.clientConnection();
 		SearchRequest searchRequest = new SearchRequest();
@@ -239,8 +219,8 @@ public class CardService {
 				builder.field("bankname", bankname).field("cardname", cardName).field("condition", condition);
 			}
 			builder.startObject("benefit").field("movie", movie).field("cafe", cafe).field("transportation", transportation)
-			.field("telecom", telecom).field("offshop", offshop).field("onshop", onshop).field("food", food)
-			.field("others", others).endObject();
+				.field("telecom", telecom).field("offshop", offshop).field("onshop", onshop).field("food", food)
+				.field("others", others).endObject();
 			builder.endObject();
 
 			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -264,7 +244,7 @@ public class CardService {
 		RestHighLevelClient client = elConfig.clientConnection();
 		boolean result = false;
 		try {
-
+			
 			XContentBuilder builder = XContentFactory.jsonBuilder();
 			builder.startObject();
 			{
@@ -272,8 +252,8 @@ public class CardService {
 				.field("20m", 0).field("20f", 0).field("30m", 0).field("30f", 0).field("40m", 0).field("40f", 0);
 			}
 			builder.startObject("benefit").field("movie", movie).field("cafe", cafe).field("transportation", transportation)
-			.field("telecom", telecom).field("offshop", offshop).field("onshop", onshop).field("food", food)
-			.field("others", others).endObject();
+				.field("telecom", telecom).field("offshop", offshop).field("onshop", onshop).field("food", food)
+				.field("others", others).endObject();
 			builder.endObject();
 			IndexRequest request = new IndexRequest("cardfit").source(builder);
 			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
